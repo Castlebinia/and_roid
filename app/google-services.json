@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1038558217504",
+    "firebase_url": "https://showgather-cb7a0.firebaseio.com",
+    "project_id": "showgather-cb7a0",
+    "storage_bucket": "showgather-cb7a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038558217504:android:a83edd4982b9d885",
+        "android_client_info": {
+          "package_name": "com.showgather.sungbin.showgather"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038558217504-qklamfhifig7o66p5kq61mvd2qj1uq69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.showgather.sungbin.showgather",
+            "certificate_hash": "2e0e965b1f893cbbd60faef43af565f9721face8"
+          }
+        },
+        {
+          "client_id": "1038558217504-8uttp1jf1b5tpcm45cf8ocgqqu4bhcqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6dik99cxJQnQ2ENI4wAXQZPDfkd9tIHI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038558217504-8uttp1jf1b5tpcm45cf8ocgqqu4bhcqs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

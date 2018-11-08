@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ShowGather</string>
+    <string name="rc_color">splash_background</string>
+    <string name="client_id_naver">bJsGZ4pXccujmHm6ytOk</string>
+    <string name="client_password_naver">FTUwepf0c9</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
