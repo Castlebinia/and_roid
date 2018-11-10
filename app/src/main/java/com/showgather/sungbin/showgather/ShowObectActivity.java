@@ -15,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.showgather.sungbin.showgather.Locations.LocationDistance;
@@ -54,6 +56,7 @@ public class ShowObectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_obect);
+
         //Navigation
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.mainactivity_bottomnavigationview);
         Menu menu =bottomNavigationView.getMenu();
@@ -97,6 +100,7 @@ public class ShowObectActivity extends AppCompatActivity {
 
         mArrayList = new ArrayList<>();
         myAdapter = new MyAdapter(mArrayList);
+
 
         mRecyclerView.setAdapter(myAdapter);
         myAdapter.notifyDataSetChanged();
@@ -189,7 +193,7 @@ public class ShowObectActivity extends AppCompatActivity {
                     double mark_diff = locationDistance.distance(lat1,lon1,lat2,lon2,"meter");
                     String diff = String.format("%.0f",mark_diff);
 
-                    ResModel resModel = new ResModel(name,address,diff+"m","☎ "+phone,image_url);
+                    ResModel resModel = new ResModel(name,address,lat,lon,diff+"m","☎ "+phone,image_url);
                     mArrayList.add(resModel);
                     myAdapter.notifyDataSetChanged();
                 }
