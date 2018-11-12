@@ -5,19 +5,15 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.FragmentActivity;
-import android.view.ViewGroup;
-
-import com.showgather.sungbin.showgather.Locations.gps_location;
-
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
 
 
-public class LocationActivity extends FragmentActivity{
+public class LocationActivity extends AppCompatActivity{
 
     private BottomNavigationView bottomNavigationView;
     private Intent intent;
@@ -27,7 +23,34 @@ public class LocationActivity extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        getFragmentManager().beginTransaction().replace(R.id.fragment1,new fragment1());
+        TabLayout tabs=(TabLayout)findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("지도"));
+        tabs.addTab(tabs.newTab().setText("지하철"));
+
+        getSupportFragmentManager().beginTransaction().add(R.id.location_fragment,new fragment1()).commit();
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                Fragment selected = null;
+                if(position==0){
+                    selected = new fragment1();
+                }else if(position==1){
+                    selected = new fragment2();
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.location_fragment, selected).commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.mainactivity_bottomnavigationview);
         Menu menu = bottomNavigationView.getMenu();
@@ -50,7 +73,6 @@ public class LocationActivity extends FragmentActivity{
                                 intent = new Intent(context, SettingsActivity.class);
                                 break;
                         }
-                        finish();
                         startActivity(intent);
                         return true;
                     }

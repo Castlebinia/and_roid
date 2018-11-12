@@ -40,7 +40,6 @@ public class FreeActivity extends AppCompatActivity {
                                 intent = new Intent(context,SettingsActivity.class);
                                 break;
                         }
-                        finish();
                         startActivity(intent);
                         return true;
                     }

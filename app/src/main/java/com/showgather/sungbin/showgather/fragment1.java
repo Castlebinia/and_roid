@@ -1,30 +1,20 @@
 package com.showgather.sungbin.showgather;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import net.daum.mf.map.api.MapView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.showgather.sungbin.showgather.Locations.LocationDistance;
 import com.showgather.sungbin.showgather.Locations.gps_location;
-import com.showgather.sungbin.showgather.model.ResModel;
-
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,27 +28,23 @@ public class fragment1 extends Fragment implements MapView.MapViewEventListener,
     double latitude;    //내 위도(초기 gps기준)
     double longitude;   //내 경도(초기 gps기준)
     String feed_url ="http://claor123.cafe24.com/Location.php";
-    private static final String TAG = "claor123";
+    private static final String TAG = "clar123";
     private String mJsonString;
     MapView mapView;
 
-    private Intent intent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        View view = inflater.inflate(R.layout.fragment1,container,false);
+        ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment1,container,false);
         mapView = new MapView(getActivity());
-        mapView.setDaumMapApiKey(DAUM_API_KEY);
-
         ViewGroup mapViewContainer = (ViewGroup)view.findViewById(R.id.location_map_view);
         mapViewContainer.addView(mapView);
+        mapView.setDaumMapApiKey(DAUM_API_KEY);
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
         onMapViewInitialized(mapView);
         return view;
-
     }
 
     @Override
@@ -80,7 +66,7 @@ public class fragment1 extends Fragment implements MapView.MapViewEventListener,
         marker.setMarkerType(MapPOIItem.MarkerType.RedPin); // 기본으로 제공하는 BluePin 마커 모양.
         marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         mapView.addPOIItem(marker);
-        mapView.setZoomLevel(3, true);
+        mapView.setZoomLevel(4, true);
         GetData task = new GetData();
         task.execute(feed_url,String.valueOf(latitude),String.valueOf(longitude));
     }
@@ -149,12 +135,6 @@ public class fragment1 extends Fragment implements MapView.MapViewEventListener,
             intent.putExtra("marker_lat", lat);
             intent.putExtra("marker_lon", lon);
             startActivity(intent);
-        }else if(mapPOIItem.getTag()==5){
-            Intent intent = new Intent(getActivity(),ReservationActivity.class);
-            intent.putExtra("res_lat",mapPOIItem.getMapPoint().getMapPointGeoCoord().latitude);
-            intent.putExtra("res_lon",mapPOIItem.getMapPoint().getMapPointGeoCoord().longitude);
-            intent.putExtra("res_name",mapPOIItem.getItemName());
-            startActivity(intent);
         }
     }
 
@@ -181,8 +161,8 @@ public class fragment1 extends Fragment implements MapView.MapViewEventListener,
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setReadTimeout(10000);
+                httpURLConnection.setConnectTimeout(10000);
 
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoInput(true);
@@ -250,6 +230,7 @@ public class fragment1 extends Fragment implements MapView.MapViewEventListener,
                 MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(Double.parseDouble(lat),Double.parseDouble(lon));
                 res_marker.setMapPoint(mapPoint);
                 res_marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                res_marker.setShowDisclosureButtonOnCalloutBalloon(false);
                 res_marker.setSelectedMarkerType(MapPOIItem.MarkerType.BluePin);
                 mapView.addPOIItem(res_marker);
             }

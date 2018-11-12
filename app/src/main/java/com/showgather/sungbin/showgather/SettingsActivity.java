@@ -40,7 +40,6 @@ public class SettingsActivity extends AppCompatActivity {
                             case R.id.settings:
                                 return true;
                         }
-                        finish();
                         startActivity(intent);
                         return true;
                     }

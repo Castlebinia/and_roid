@@ -2,21 +2,14 @@ package com.showgather.sungbin.showgather;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.UnicodeSetSpanner;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.showgather.sungbin.showgather.Locations.LocationDistance;
 import com.showgather.sungbin.showgather.model.ResModel;
-
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{

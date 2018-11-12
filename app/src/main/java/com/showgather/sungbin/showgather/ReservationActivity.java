@@ -5,15 +5,17 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import org.w3c.dom.Text;
+
+@SuppressWarnings("deprecation")
 public class ReservationActivity extends AppCompatActivity implements MapView.MapViewEventListener,MapView.POIItemEventListener{
-    private Intent intent;
-    final Context context = ReservationActivity.this;
     final private static String DAUM_API_KEY = "d53fec04369ea0b054c1b221253f2cca";
     public double lat;
     public double lon;
@@ -26,6 +28,8 @@ public class ReservationActivity extends AppCompatActivity implements MapView.Ma
         lat=extras.getDouble("res_lat");
         lon=extras.getDouble("res_lon");
         name=extras.getString("res_name");
+        TextView textView = (TextView)findViewById(R.id.res_res_name);
+        textView.setText(name);
         MapView mapView = new MapView(this);
         mapView.setDaumMapApiKey(DAUM_API_KEY);
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.reservation_map);
@@ -41,12 +45,12 @@ public class ReservationActivity extends AppCompatActivity implements MapView.Ma
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(lat,lon);
         MapPOIItem marker = new MapPOIItem();
         marker.setItemName(name);
-        marker.setTag(0);
-        mapView.setMapCenterPointAndZoomLevel(mapPoint,2, true);
+        marker.setTag(4);
+        mapView.setMapCenterPointAndZoomLevel(mapPoint,1, true);
         marker.setMapPoint(mapPoint);
         mapView.setShowCurrentLocationMarker(true);
         marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        marker.setShowCalloutBalloonOnTouch(false);
         mapView.addPOIItem(marker);
     }
 

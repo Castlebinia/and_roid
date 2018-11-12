@@ -56,7 +56,6 @@ public class ShowObectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_obect);
-
         //Navigation
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.mainactivity_bottomnavigationview);
         Menu menu =bottomNavigationView.getMenu();
@@ -80,7 +79,6 @@ public class ShowObectActivity extends AppCompatActivity {
                                 intent = new Intent(context,SettingsActivity.class);
                                 break;
                         }
-                        finish();
                         startActivity(intent);
                         return true;
                     }
@@ -107,6 +105,12 @@ public class ShowObectActivity extends AppCompatActivity {
         GetData task = new GetData();
         task.execute(feed_url,String.valueOf(lat2),String.valueOf(lon2));
     }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(ShowObectActivity.this,MainActivity.class);
+        startActivity(intent);
+    }
+
 
     public class GetData extends AsyncTask<String,Void,String> {
         //ProgressDialog progressDialog;
@@ -123,8 +127,8 @@ public class ShowObectActivity extends AppCompatActivity {
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setReadTimeout(10000);
+                httpURLConnection.setConnectTimeout(10000);
 
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoInput(true);
@@ -202,6 +206,7 @@ public class ShowObectActivity extends AppCompatActivity {
            //     Log.d(TAG, "showResult : ", e);
             }
         }
+
 }
 
 
