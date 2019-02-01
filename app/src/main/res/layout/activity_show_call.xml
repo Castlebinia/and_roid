@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    >
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            >
-        </android.support.design.widget.TabLayout>
-
-    <FrameLayout
+    android:orientation="vertical"
+    tools:context=".ShowCallActivity">
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="10dp"
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        android:id="@+id/location_fragment"
+        android:layout_above="@+id/mainactivity_bottomnavigationview"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
-
     <android.support.design.widget.BottomNavigationView
         app:labelVisibilityMode="labeled"
         android:layout_width="wrap_content"
@@ -31,7 +23,7 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_navigation_main"
         >
-    </android.support.design.widget.BottomNavigationView>
 
+    </android.support.design.widget.BottomNavigationView>
 
 </RelativeLayout>

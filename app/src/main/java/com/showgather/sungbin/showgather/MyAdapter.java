@@ -35,6 +35,9 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 intent.putExtra("res_lon",Double.parseDouble(resInfoArrayList.get(position).lon));
                 intent.putExtra("res_lat",Double.parseDouble(resInfoArrayList.get(position).lat));
                 intent.putExtra("res_name",resInfoArrayList.get(position).name);
+                intent.putExtra("res_id",resInfoArrayList.get(position).id);
+                intent.putExtra("res_url",resInfoArrayList.get(position).image_url);
+                intent.putExtra("res_url1",resInfoArrayList.get(position).image_url1);
                 context.startActivity(intent);
 
             }
@@ -46,9 +49,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         Glide.with(holder.itemView.getContext())
                 .load(resInfoArrayList.get(position).image_url)
                 .into(myViewHolder.picture);
-
     }
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
         TextView name;
         TextView address;
@@ -57,20 +59,12 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         MyViewHolder(View view){
             super(view);
-            view.setOnClickListener(this);
             picture = view.findViewById(R.id.res_picture);
             name = view.findViewById(R.id.res_name);
             address = view.findViewById(R.id.res_address);
             diff = view.findViewById(R.id.res_diff);
             phone = view.findViewById(R.id.res_phone);
 
-        }
-
-        @Override
-        public void onClick(View v) {
-            System.out.println(getOldPosition());
-            Intent intent = new Intent(v.getContext() ,ReservationActivity.class);
-            v.getContext().startActivity(intent);
         }
     }
 

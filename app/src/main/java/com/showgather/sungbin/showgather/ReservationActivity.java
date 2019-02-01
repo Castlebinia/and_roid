@@ -1,116 +1,164 @@
 package com.showgather.sungbin.showgather;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.ViewGroup;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
+import com.bumptech.glide.request.RequestOptions;
+import com.glide.slider.library.Animations.DescriptionAnimation;
+import com.glide.slider.library.SliderLayout;
+import com.glide.slider.library.SliderTypes.BaseSliderView;
+import com.glide.slider.library.SliderTypes.DefaultSliderView;
+import com.glide.slider.library.Tricks.ViewPagerEx;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+
 
 @SuppressWarnings("deprecation")
-public class ReservationActivity extends AppCompatActivity implements MapView.MapViewEventListener,MapView.POIItemEventListener{
-    final private static String DAUM_API_KEY = "d53fec04369ea0b054c1b221253f2cca";
+public class ReservationActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener,ViewPagerEx.OnPageChangeListener {
+    private SliderLayout mSlider;
     public double lat;
     public double lon;
     public String name;
+    public String url;
+    public String url1;
+    public String id;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
+        mSlider = findViewById(R.id.res_image_slider);
+        ArrayList<String> listUrl = new ArrayList<>();
+
+        Button reservate = (Button)findViewById(R.id.res_reservate);
+        Button review = (Button)findViewById(R.id.res_review);
         Bundle extras = getIntent().getExtras();
         lat=extras.getDouble("res_lat");
         lon=extras.getDouble("res_lon");
         name=extras.getString("res_name");
+        id=extras.getString("res_id");
+        url=extras.getString("res_url");
+        url1=extras.getString("res_url1");
+        listUrl.add(url);
+        listUrl.add(url1);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
+        for (int i = 0; i < listUrl.size(); i++) {
+            DefaultSliderView sliderView = new DefaultSliderView(this);
+            // if you want show image only / without description text use DefaultSliderView instead
+            // initialize SliderLayout
+            sliderView
+                    .image(listUrl.get(i))
+                    .setRequestOption(requestOptions)
+                    .setBackgroundColor(Color.WHITE)
+                    .setProgressBarVisible(true)
+                    .setOnSliderClickListener(this);
+
+            //add your extra information
+            sliderView.bundle(new Bundle());
+            mSlider.addSlider(sliderView);
+        }
+        mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+
+        mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mSlider.setCustomAnimation(new DescriptionAnimation());
+        mSlider.setDuration(4000);
+        mSlider.addOnPageChangeListener(this);
         TextView textView = (TextView)findViewById(R.id.res_res_name);
         textView.setText(name);
-        MapView mapView = new MapView(this);
-        mapView.setDaumMapApiKey(DAUM_API_KEY);
-        ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.reservation_map);
-        mapViewContainer.addView(mapView);
-        mapView.setMapViewEventListener(this);
-        mapView.setPOIItemEventListener(this);
-        onMapViewInitialized(mapView);
+        final ViewPager viewPager;
+        viewPager=findViewById(R.id.res_content);
+        viewPager.setAdapter(new pageAdapter(getSupportFragmentManager()));
+        viewPager.setCurrentItem(0);
+
+        TabLayout tabs=(TabLayout)findViewById(R.id.res_tabs);
+        tabs.addTab(tabs.newTab().setText("정보"));
+        tabs.addTab(tabs.newTab().setText("메뉴"));
+        tabs.addTab(tabs.newTab().setText("리뷰"));
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                viewPager.setCurrentItem(position);
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReservationActivity.this,ReviewWriteActivity.class);
+                intent.putExtra("res_name",name);
+                intent.putExtra("res_id",id);
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+    private class pageAdapter extends FragmentStatePagerAdapter {
+        public pageAdapter(android.support.v4.app.FragmentManager fm) {
+            super(fm);
+        }
+        @Override
+        public android.support.v4.app.Fragment getItem(int i){
+            switch (i){
+                case 0:return new Res_info_fragment();
+                case 1:return new Res_menu_fragment();
+                case 2:return new Review_fragment();
+                default:return null;
+            }
+        }
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 
     @Override
-    public void onMapViewInitialized(MapView mapView) {
-        mapView.removeAllPOIItems();
-        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(lat,lon);
-        MapPOIItem marker = new MapPOIItem();
-        marker.setItemName(name);
-        marker.setTag(4);
-        mapView.setMapCenterPointAndZoomLevel(mapPoint,1, true);
-        marker.setMapPoint(mapPoint);
-        mapView.setShowCurrentLocationMarker(true);
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-        marker.setShowCalloutBalloonOnTouch(false);
-        mapView.addPOIItem(marker);
+    protected void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        mSlider.stopAutoCycle();
+        super.onStop();
     }
 
     @Override
-    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-
-    }
-
-    @Override
-    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
+    public void onSliderClick(BaseSliderView baseSliderView) {
 
     }
 
     @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
+    public void onPageScrolled(int i, float v, int i1) {
 
     }
 
     @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
+    public void onPageSelected(int i) {
 
     }
 
     @Override
-    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
+    public void onPageScrollStateChanged(int i) {
 
     }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+
 }

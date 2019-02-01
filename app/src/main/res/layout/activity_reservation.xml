@@ -1,31 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:fitsSystemWindows="true"
+    android:id="@+id/res_image_header"
     tools:context=".ReservationActivity">
-
-
-    <RelativeLayout
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/reservation_map"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <TextView
-        android:id="@+id/res_res_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@null"
+        android:fitsSystemWindows="true"
+        >
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_gravity="center_vertical"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        android:layout_height="250dp">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <com.glide.slider.library.SliderLayout
+            android:id="@+id/res_image_slider"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="10dp"
+            app:layout_collapseMode="parallax" />
+        <TextView
+            android:id="@+id/res_res_name"
+            android:layout_below="@id/res_image_slider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:hint="가게이름"
+            android:textSize="22sp"
+            app:layout_collapseMode="pin" />
+        </RelativeLayout>
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/res_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/res_res_name"
+            android:background="@android:color/background_light"
+            android:scrollbars="none"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            />
+
+</android.support.design.widget.AppBarLayout>
+    <android.support.v4.view.ViewPager
         android:layout_marginTop="10dp"
-        android:text="가게이름"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/res_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/res_reservate"
+            android:layout_width="185dp"
+            android:layout_height="50dp"
+            android:text="예약하기"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/res_review"
+            android:layout_width="185dp"
+            android:layout_height="50dp"
+            android:text="리뷰 쓰기"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 
 
-</LinearLayout>
+
+
+
+

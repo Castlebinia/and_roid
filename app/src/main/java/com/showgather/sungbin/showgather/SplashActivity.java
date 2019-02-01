@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,11 +17,11 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.nio.channels.AlreadyBoundException;
+import static java.lang.Thread.sleep;
 
 public class SplashActivity extends AppCompatActivity {
 
     private LinearLayout linearLayout;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,33 +30,15 @@ public class SplashActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         linearLayout = (LinearLayout)findViewById(R.id.splashactivity_linearlayout);
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                .build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        mFirebaseRemoteConfig.setDefaults(R.xml.default_config);
-        displayMessage();
+        try {
+            displayMessage();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-    void displayMessage(){
-        String splash_background = mFirebaseRemoteConfig.getString("splash_background");
-        boolean caps = mFirebaseRemoteConfig.getBoolean("splash_message_caps");
-        String splash_message = mFirebaseRemoteConfig.getString("splash_message");
-
-        linearLayout.setBackgroundColor(Color.parseColor(splash_background));
-
-        if(caps){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(splash_message).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            builder.create().show();
-        }else{
+    void displayMessage() throws InterruptedException {
             startActivity(new Intent(this,LoginActivity.class));
             finish();
         }
-    }
+
 }

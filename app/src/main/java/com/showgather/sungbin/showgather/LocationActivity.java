@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,7 +26,6 @@ public class LocationActivity extends AppCompatActivity{
         TabLayout tabs=(TabLayout)findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("지도"));
         tabs.addTab(tabs.newTab().setText("지하철"));
-
         getSupportFragmentManager().beginTransaction().add(R.id.location_fragment,new fragment1()).commit();
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -45,7 +44,6 @@ public class LocationActivity extends AppCompatActivity{
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
@@ -73,6 +71,7 @@ public class LocationActivity extends AppCompatActivity{
                                 intent = new Intent(context, SettingsActivity.class);
                                 break;
                         }
+                        finish();
                         startActivity(intent);
                         return true;
                     }

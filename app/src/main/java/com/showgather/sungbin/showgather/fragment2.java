@@ -18,6 +18,5 @@ public class fragment2 extends Fragment {
         TextView textView = (TextView)view.findViewById(R.id.subway);
         textView.setText("영수야 연식아");
         return view;
-
     }
 }

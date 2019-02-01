@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ReviewWriteActivity">
+    <TextView
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:id="@+id/res_write_name"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <EditText
+        android:id="@+id/res_write_title"
+        android:hint="이곳에 제목을 입력하세요..."
+        app:layout_goneMarginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp" />
+    <EditText
+        android:id="@+id/res_write_context"
+        android:hint="이곳에 내용을 입력하세요...(500자 이내)"
+        app:layout_goneMarginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:id="@+id/review_back"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:text="취소" />
+
+        <Button
+            android:id="@+id/review_register"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:text="리뷰 작성" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -37,7 +37,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class ShowObectActivity extends AppCompatActivity  {
+public class ShowCallActivity extends AppCompatActivity  {
 
     private static final String TAG = "claor123";
     private String mJsonString;
@@ -48,8 +48,8 @@ public class ShowObectActivity extends AppCompatActivity  {
     private Bundle extras;
     private double lat2;
     private double lon2;
-    public String ret;
-    final Context context = ShowObectActivity.this;
+    static String ret1="";
+    final Context context = ShowCallActivity.this;
     private BottomNavigationView bottomNavigationView;
     private Intent intent;
 
@@ -84,11 +84,12 @@ public class ShowObectActivity extends AppCompatActivity  {
                         return true;
                     }
                 });
-        //server
         feed_url ="http://claor123.cafe24.com/Location.php";
         extras = getIntent().getExtras();
         lat2=extras.getDouble("marker_lat");
         lon2=extras.getDouble("marker_lon");
+        ret1= extras.getString("res_id_1");
+        Log.d("claor222",ret1);
 
         RecyclerView.LayoutManager mLayoutManager;
 
@@ -107,7 +108,7 @@ public class ShowObectActivity extends AppCompatActivity  {
     }
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(ShowObectActivity.this,MainActivity.class);
+        Intent intent = new Intent(ShowCallActivity.this,MainActivity.class);
         startActivity(intent);
     }
 
@@ -118,8 +119,8 @@ public class ShowObectActivity extends AppCompatActivity  {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           // progressDialog = ProgressDialog.show(ShowObectActivity.this,
-             //      "Please Wait", null, true, true);
+            // progressDialog = ProgressDialog.show(ShowObectActivity.this,
+            //      "Please Wait", null, true, true);
         }
 
         @Override
@@ -174,38 +175,39 @@ public class ShowObectActivity extends AppCompatActivity  {
             showResult();
         }
     }
-        public void showResult() {
-            String TAG_JSON = "response";
-            try {
-                JSONObject jsonObject = new JSONObject(mJsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject item = jsonArray.getJSONObject(i);
+    public void showResult() {
+                    String TAG_JSON = "response";
+                    try {
+                        JSONObject jsonObject = new JSONObject(mJsonString);
+                        JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject item = jsonArray.getJSONObject(i);
 
-                    String name = item.getString("name");
-                    String address = item.getString("address");
-                    String lat = item.getString("lat");
-                    String lon = item.getString("lon");
-                    String phone = item.getString("phone");
-                    String id = item.getString("id");
-                    String image_url =item.getString("image_url");
-                    String image_url1=item.getString("image_url1");
+                            String name = item.getString("name");
+                            String address = item.getString("address");
+                            String lat = item.getString("lat");
+                            String lon = item.getString("lon");
+                            String phone = item.getString("phone");
+                            String id = item.getString("id");
+                            String image_url =item.getString("image_url");
+                            String image_url1=item.getString("image_url1");
 
-                    LocationDistance locationDistance = new LocationDistance();
-                    double lat1=Double.parseDouble(lat);
-                    double lon1=Double.parseDouble(lon);
-                    double mark_diff = locationDistance.distance(lat1,lon1,lat2,lon2,"meter");
-                    String diff = String.format("%.0f",mark_diff);
-                    ResModel resModel = new ResModel(name, address, lat, lon, diff + "m", "☎ " + phone, image_url, id,image_url1);
+                            LocationDistance locationDistance = new LocationDistance();
+                            double lat1=Double.parseDouble(lat);
+                            double lon1=Double.parseDouble(lon);
+                            double mark_diff = locationDistance.distance(lat1,lon1,lat2,lon2,"meter");
+                            String diff = String.format("%.0f",mark_diff);
+                            if(ret1.contains(id)) {
+                    ResModel resModel = new ResModel(name, address, lat, lon,  diff+"m", "☎ " + phone, image_url, id,image_url1);
                     mArrayList.add(resModel);
                     myAdapter.notifyDataSetChanged();
-
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-           //     Log.d(TAG, "showResult : ", e);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            //     Log.d(TAG, "showResult : ", e);
         }
+    }
 
 }
 

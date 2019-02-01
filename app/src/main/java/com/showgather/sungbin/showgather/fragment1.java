@@ -5,16 +5,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import net.daum.mf.map.api.MapView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.showgather.sungbin.showgather.Locations.gps_location;
+
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,16 +26,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 public class fragment1 extends Fragment implements MapView.MapViewEventListener,MapView.POIItemEventListener{
     final private static String DAUM_API_KEY = "d53fec04369ea0b054c1b221253f2cca";
     double latitude;    //내 위도(초기 gps기준)
     double longitude;   //내 경도(초기 gps기준)
     String feed_url ="http://claor123.cafe24.com/Location.php";
-    private static final String TAG = "clar123";
+    private static final String TAG = "claor123";
     private String mJsonString;
     MapView mapView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

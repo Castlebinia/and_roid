@@ -13,6 +13,8 @@
         android:name="com.kakao.sdk.AppKey"
         android:value="d53fec04369ea0b054c1b221253f2cca" />
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,21 +22,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".LocationActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FreeActivity" />
         <activity android:name=".ShowObectActivity" />
-        <activity android:name=".ReservationActivity"></activity>
+        <activity android:name=".ReservationActivity" />
+        <activity android:name=".ReviewWriteActivity" />
+        <activity android:name=".LodingReservateActivity" />
+        <activity android:name=".ShowCallActivity"></activity>
     </application>
 
 </manifest>
